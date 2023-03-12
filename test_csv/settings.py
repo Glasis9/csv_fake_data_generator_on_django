@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-&+6vz69hg)b4+oqt59=)ku$#5y3-k+1zciqbj9^9-pyhlh9!0v")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
@@ -90,6 +91,9 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES["default"].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
