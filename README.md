@@ -2,6 +2,10 @@
 
 Project for generating fake data with custom selection of fields and the ability to download a csv file
 
+## Check it out!
+
+[CSV Fake data generator on Django project deployed to Render](https://csv-fake-data-generator-on-django.onrender.com)
+
 # Test user:
 * login: user
 * password: user12345
