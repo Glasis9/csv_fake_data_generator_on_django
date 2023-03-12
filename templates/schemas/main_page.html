@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+  {% include "sidebar.html" %}
+
+  <p class="border-table">Data schemas</p>
+  <a class="btn-text btn but-success" href="{% url 'schema-create' %}">New schemas</a>
+
+  <div class="sheets-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Modified</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      {% for schema in data %}
+        <tbody>
+          <tr>
+            <th scope="row">{{ schema.id }}</th>
+            <td><a href="{% url 'schema-detail' pk=schema.id %}">{{ schema.title }}</a></td>
+            <td>{{ schema.modified.year }}-{{ schema.modified.month }}-{{ schema.modified.day }}</td>
+            <td>
+              <a style="color: red" href="{% url 'schema-delete' pk=schema.id %}">Delete</a>
+              <a href="{% url 'schema-update' pk=schema.id %}">Edit schema</a>
+            </td>
+          </tr>
+        </tbody>
+      {% endfor %}
+    </table>
+  </div>
+
+{% endblock %}

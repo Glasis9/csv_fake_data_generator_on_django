@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}Detail schema{% endblock %}
+
+{% block content %}
+  {% include "sidebar.html" %}
+  <p class="border-table">
+    Data schemas
+    <a class="edit-det" href="{% url 'schema-update' pk=schema.id %}">Edit schema</a>
+  </p>
+
+  <div class="sheets-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Column name</th>
+          <th scope="col">Column type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if schema.full_name %}
+          <tr>
+            <td>1</td>
+            <td>{{ schema.full_name }}</td>
+            <td>Full name</td>
+          </tr>
+        {% endif %}
+        {% if schema.age %}
+          <tr>
+            <td>2</td>
+            <td>{{ schema.age }}</td>
+            <td>Age</td>
+          </tr>
+        {% endif %}
+        {% if schema.phone_number %}
+          <tr>
+            <td>3</td>
+            <td>{{ schema.phone_number }}</td>
+            <td>Phone number</td>
+          </tr>
+        {% endif %}
+        {% if schema.company %}
+          <tr>
+            <td>4</td>
+            <td>{{ schema.company }}</td>
+            <td>Company</td>
+          </tr>
+        {% endif %}
+        {% if schema.email %}
+          <tr>
+            <td>5</td>
+            <td>{{ schema.email }}</td>
+            <td>Email</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="data-set">
+    Data sets
+  </p>
+  <div class="btn-gen">
+    <form action="{% url 'dataset-create' pk=schema.id %}" method="post">
+      {% csrf_token %}
+      <div class="text-row">{{ form|crispy }}</div>
+      <label>
+        <input class="btn btn-success btn-suc" type="submit" value="Generate data">
+      </label>
+    </form>
+  </div>
+
+  <div class="data-sets-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Created</th>
+          <th scope="col">Status</th>
+          <th scope="col">Rows</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in data_set.all %}
+          {% if data.create_dataschemas == True %}
+            <tr>
+              <td>{{ data.created.year }}-{{ data.created.month }}-{{ data.created.day }}</td>
+              {% if data.status == "Processing" %}
+                <td><p class="btn btn-secondary">{{ data.status }}</p></td>
+                <td>{{ data.rows }}</td>
+                <td><a href="{% url 'schema-detail' pk=schema.id %}">Expect (click to reload page)</a></td>
+              {% else %}
+                <td><p class="btn btn-success">{{ data.status }}</p></td>
+                <td>{{ data.rows }}</td>
+                <td><a href="{% url 'download-csv' pk=data.id %}">Download</a></td>
+              {% endif %}
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

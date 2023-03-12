@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}{{ object|yesno:"Update schema,New schema" }}{% endblock %}
+
+{% block content %}
+  {% include "sidebar.html" %}
+  <div class="new-schema">{{ object|yesno:"Update schema,New schema" }}</div>
+
+  <form class="sheets-table" action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-primary" type="submit" value="Submit">
+  </form>
+
+{% endblock %}

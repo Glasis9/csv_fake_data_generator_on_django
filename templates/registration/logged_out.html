@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="display1">Logout</div>
+    <p class="display2">To access the site, please login</p>
+    <a class="btn btn-primary display3" href="{% url 'login' %}">Sign in</a>
+  </div>
+{% endblock %}
